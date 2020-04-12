@@ -5,10 +5,42 @@ set -vex
 # maor load
 function config_workloads
 {
-    sed -i "s/recordcount=[0-9]*/recordcount=${RECNUM:=1000000}/g" \
-        /opt/ycsb-*/workloads/workload*
-    sed -i "s/operationcount=[0-9]*/operationcount=${OPNUM:=5000000}/g" \
-        /opt/ycsb-*/workloads/workload*
+    if [[ ! -z ${RECNUM} ]]; then
+        sed -i "s/recordcount=[0-9]*/recordcount=${RECNUM:=1000000}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${OPNUM} ]]; then     
+        sed -i "s/operationcount=[0-9]*/operationcount=${OPNUM:=5000000}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${READPROPORTION} ]]; then
+        sed -i "s/readproportion=[0-9\.]*/readproportion=${READPROPORTION:=0.5}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${UPDATEPROPORTION} ]]; then
+        sed -i "s/updateproportion=[0-9\.]*/updateproportion=${UPDATEPROPORTION:=0.5}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${SCANPROPORTION} ]]; then    
+        sed -i "s/scanproportion=[0-9\.]*/scanproportion=${SCANPROPORTION:=0.95}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${INSERTPROPORTION} ]]; then
+        sed -i "s/insertproportion=[0-9\.]*/insertproportion=${INSERTPROPORTION:=0.5}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${REQUESTDISTRIBUTION} ]]; then      
+        sed -i "s/requestdistribution=zipfian/requestdistribution=${REQUESTDISTRIBUTION:=zipfian}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${MAXSCANLENGTH} ]]; then   
+        sed -i "s/maxscanlength=[0-9.]*/maxscanlength=${MAXSCANLENGTH:=100}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi
+    if [[ ! -z ${SCANLENGTHDISTRIBUTION} ]]; then  
+        sed -i "s/scanlengthdistribution=uniform/scanlengthdistribution=${SCANLENGTHDISTRIBUTION:=uniform}/g" \
+        /opt/ycsb-*/workloads/workload${WORKLETTER}
+    fi    
         
     return
 }
